@@ -1,0 +1,156 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.5.1">
+  <xsd:annotation>
+    <xsd:documentation>
+      Filename : product.xsd Organisation : Australian Bureau of Meteorology Date : 12/10/2011 Description : Notes :
+    </xsd:documentation>
+  </xsd:annotation>
+  <xsd:include schemaLocation="amoc.xsd"/>
+  <xsd:element name="product" type="productType">
+    <xsd:annotation>
+      <xsd:documentation>
+        This is the root element that is used to identify the XML data as PRODUCT XML.
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="productType">
+    <xsd:sequence>
+      <xsd:element name="amoc" type="amocType"/>
+      <xsd:element name="warning" type="warningType" minOccurs="0"/>
+      <xsd:element name="forecast" type="forecastType" minOccurs="0"/>
+      <xsd:element name="warning-summaries" type="warning-summariesType" minOccurs="0"/>
+      <xsd:element name="observations" type="observationsType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="version" type="xsd:string" default="1.5"/>
+  </xsd:complexType>
+  <xsd:complexType name="warningType">
+    <xsd:sequence>
+      <xsd:element name="warning-info" type="warning-infoType"/>
+      <xsd:element name="area" type="areaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="warning-infoType">
+    <xsd:sequence>
+      <xsd:element name="text" type="text-elementType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="forecastType">
+    <xsd:sequence>
+      <xsd:element name="area" type="areaType" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="observationsType">
+    <xsd:sequence>
+      <xsd:element name="station" type="stationType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="areaType">
+    <xsd:sequence>
+      <xsd:element name="warning-summary" type="warning-summaryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="forecast-period" type="forecast-periodType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="hazard" type="hazardType" maxOccurs="unbounded" minOccurs="0"/>
+      <xsd:element name="warning-group" type="warning-groupType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="aac" type="aacType" use="required"/>
+    <xsd:attribute name="parent-aac" type="aacType" use="optional"/>
+    <xsd:attribute name="description" type="xsd:string" use="required"/>
+    <xsd:attribute name="type" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="warning-summaryType" mixed="true">
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="p" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="type" type="xsd:string" use="optional"/>
+    <xsd:attribute name="product-identifier" type="identifierType" use="optional"/>
+    <xsd:attribute name="product-url" type="xsd:anyURI" use="optional"/>
+    <xsd:attribute name="start-time-utc" type="xsd:dateTime" use="required"/>
+    <xsd:attribute name="start-time-local" type="xsd:dateTime" use="required"/>
+    <xsd:attribute name="end-time-utc" type="xsd:dateTime" use="required"/>
+    <xsd:attribute name="end-time-local" type="xsd:dateTime" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="forecast-periodType">
+    <xsd:sequence>
+      <xsd:element name="warning-summary" type="warning-summaryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="element" type="elementType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="text" type="text-elementType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="hazard" type="periodicHazardType" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="index" use="optional" type="xsd:nonNegativeInteger"/>
+    <xsd:attribute name="start-time-utc" type="xsd:dateTime" use="optional"/>
+    <xsd:attribute name="start-time-local" type="xsd:dateTime" use="required"/>
+    <xsd:attribute name="end-time-utc" type="xsd:dateTime" use="optional"/>
+    <xsd:attribute name="end-time-local" type="xsd:dateTime" use="required"/>
+    <xsd:attribute name="end-date-local" type="xsd:dateTime" use="optional"/>
+  </xsd:complexType>
+  <xsd:complexType name="observation-periodType">
+    <xsd:sequence>
+      <xsd:element name="level" type="levelType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="element" type="elementType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="index" use="optional" type="xsd:nonNegativeInteger"/>
+    <xsd:attribute name="time-utc" type="xsd:dateTime" use="optional"/>
+    <xsd:attribute name="time-local" type="xsd:dateTime" use="required"/>
+    <xsd:attribute name="wind-src" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+  <xsd:complexType name="text-elementType" mixed="true">
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="p" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="type" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="elementType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="type" type="xsd:string" use="required"/>
+        <xsd:attribute name="units" type="xsd:string" use="optional"/>
+        <xsd:attribute name="instance" type="xsd:string" use="optional"/>
+        <xsd:attribute name="sequence" use="optional" type="xsd:nonNegativeInteger"/>
+        <xsd:attribute name="duration" use="optional" type="xsd:nonNegativeInteger"/>
+        <xsd:attribute name="time-utc" type="xsd:dateTime" use="optional"/>
+        <xsd:attribute name="time-local" type="xsd:dateTime" use="optional"/>
+        <xsd:attribute name="start-time-utc" type="xsd:dateTime" use="optional"/>
+        <xsd:attribute name="start-time-local" type="xsd:dateTime" use="optional"/>
+        <xsd:attribute name="end-time-utc" type="xsd:dateTime" use="optional"/>
+        <xsd:attribute name="end-time-local" type="xsd:dateTime" use="optional"/>
+        <xsd:attribute name="start-month" type="xsd:string" use="optional"/>
+        <xsd:attribute name="end-month" type="xsd:string" use="optional"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="warning-summariesType" mixed="true">
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="forecast-area" type="areaType" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="warning-groupType">
+    <xsd:sequence>
+      <xsd:element name="coverage-area" type="areaType" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="priority-order" use="required" type="xsd:nonNegativeInteger"/>
+    <xsd:attribute name="type" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="stationType">
+    <xsd:sequence>
+      <xsd:element name="period" type="observation-periodType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="bom-id" type="xsd:string" use="optional"/>
+    <xsd:attribute name="wmo-id" type="xsd:string" use="optional"/>
+    <xsd:attribute name="aviation-id" type="xsd:string" use="optional"/>
+    <xsd:attribute name="description" type="xsd:string" use="required"/>
+    <xsd:attribute name="tz" type="xsd:string" use="required"/>
+    <xsd:attribute name="stn-name" type="xsd:string" use="optional"/>
+    <xsd:attribute name="stn-height" type="xsd:float" use="optional"/>
+    <xsd:attribute name="type" type="xsd:string" use="optional"/>
+    <xsd:attribute name="owner" type="xsd:string" use="optional"/>
+    <xsd:attribute name="lat" type="xsd:float" use="required"/>
+    <xsd:attribute name="lon" type="xsd:float" use="required"/>
+    <xsd:attribute name="forecast-district-id" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="levelType">
+    <xsd:sequence minOccurs="0">
+      <xsd:element name="element" type="elementType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="index" use="optional" type="xsd:nonNegativeInteger"/>
+    <xsd:attribute name="type" type="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:schema>
