@@ -10,17 +10,17 @@ This has been built with the following versions:
 
 # Getting started
 
-1. Start elasticsearch by browsing to the elasticsearch home directory and running
+### Start elasticsearch by browsing to the elasticsearch home directory and running
 
   `bin/elasticsearch`
 
-2. Start kibana by browsing to the kibana home directory and running 
+### Start kibana by browsing to the kibana home directory and running
 
   `bin/kibana`
 
 *Note:* I had issues running in chrome, but none in safari
 
-3. Update the Logstash config to point to your local `downloads` directory.  
+### Update the Logstash config to point to your local downloads directory.  
 
 ```
 input {
@@ -34,13 +34,12 @@ input {
 
 You can also comment out the `sincedb_path` line to use a proper one. I've used this for debugging purposes.
 
-4. Run logstash
+### Run logstash
 
-  `bin/logstash -f <path to config> --debug`
+  `bin/logstash -f <path to bom-pipeline.conf> --debug`
 
 You should see logstash start and immediately a new index is created and populated.
 
 You should also now be able to use Kibana to view the information.
 
 Enjoy
-
